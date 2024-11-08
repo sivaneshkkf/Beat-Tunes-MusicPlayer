@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.active-li{
+    @apply text-white border-b-2 border-yellow-500
+}
+
+
+
+
+/* popular */
+.li-popular{
+    @apply sm:w-32 h-32 min-w-28 rounded-lg justify-center items-center overflow-hidden md:w-40 md:h-40 select-none  cursor-pointer
+}
+
+.img-popular{
+    @apply object-cover w-full h-full group-hover:scale-125 transform transition-all duration-500
+}
+
+.disc-popular-blur{
+    @apply absolute w-full px-2 py-1 bottom-0 text-xs bg-blend-color-burn text-white flex items-center justify-between backdrop-blur-lg bg-white bg-opacity-10
+}
+
+
+
+/* Top Played */
+.li-topplayed{
+    @apply flex w-full items-center my-2 md:my-0 p-2 gap-3 ring-1 ring-txtcolor rounded-lg select-none backdrop-blur-lg bg-white bg-opacity-5 hover:bg-opacity-10 transform transition-all duration-100  cursor-pointer
+}
+
+.li-topplayed-disc{
+  @apply md:w-16 lg:w-32 flex-1
+}
+
+.title-col{
+    @apply text-white font-semibold
+}
+.dic-col{
+    @apply text-xs text-txtcolor
+}
+
+
+
+/* scroll bar */
+@layer utilities {
+    .scrollbar {
+        padding-right: 20px; /* Creates space for scrollbar visually */
+      }
+    .scrollbar::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+      margin: 20px 0;
+    }
+  
+    .scrollbar::-webkit-scrollbar-track {
+      border-radius: 100vh;
+      background: #4b4b4a00;
+    }
+  
+    .scrollbar::-webkit-scrollbar-thumb {
+      background: #292929;
+      border-radius: 100vh;
+      /* border: 3px solid #070707; */
+    }
+  
+    .scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #3a3a3a;
+    }
+  }
+
+
+
+
+   /* Styling the range slider */
+   .range-slider {
+    @apply appearance-none rounded-lg cursor-pointer;
+     /* Track color */
+    outline: none;
+    height: 4px;
+    background: linear-gradient(to right, #747474 100%, #888888 100%);
+  }
+
+  .range-slider::-webkit-slider-thumb {
+    @apply appearance-none w-3 h-3 rounded-full;
+    /* Apply custom styles to thumb */
+    border: 1px solid white;
+    transition: .2s ease-in-out;
+    background-color: #be123c;
+  }
+
+  .range-slider::-webkit-slider-thumb:hover {
+    @apply appearance-none w-3 h-3 rounded-full;
+    /* Apply custom styles to thumb */
+    box-shadow: 0 0 0 10px rgba(190, 18, 60, 0.171)
+  }
+
+  .range-slider::-moz-range-thumb {
+    @apply appearance-none w-2 h-2 bg-zinc-500 rounded-full;
+  }
+
+  .range-slider::-ms-thumb {
+    @apply appearance-none w-5 h-5 rounded-full;
+  }
+
+  /* .range-slider::-webkit-slider-runnable-track {
+    @apply appearance-none h-1
+  } */
+  /* .range-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(to right, #3b82f6 50%, #d1d5db 50%);
+  } */
+
+  /* .range-slider::-moz-range-track {
+    @apply h-2 rounded-lg;
+  } */
