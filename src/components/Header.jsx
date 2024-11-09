@@ -5,9 +5,15 @@ function Header() {
   const [searchInput, setSearchInput] = useState("");
   const navigate = useNavigate();
 
-  const handleOnchange = (e) => {
-    setSearchInput(e.target.value);
+  const handleOnChange = (e) => {
+    const value = e.target.value;
+  
+    // Only allow letters (uppercase and lowercase) and spaces
+    const lettersOnly = value.replace(/[^a-zA-Z\s]/g, '');
+  
+    setSearchInput(lettersOnly);
   };
+  
 
   useEffect(() => {
     if (searchInput.length > 0) {
@@ -85,7 +91,7 @@ function Header() {
             placeholder="Search"
             className="bg-gradient-to-r from-[#212735] to-[#151719] rounded-lg pl-8 pr-4 py-2 border-none outline-none focus:ring-1 focus:ring-zinc-800 w-full ring-1 ring-zinc-700 text-white text-sm"
             value={searchInput}
-            onChange={handleOnchange}
+            onChange={handleOnChange}
           />
         </div>
         <span>

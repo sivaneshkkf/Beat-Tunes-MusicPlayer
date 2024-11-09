@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Songs } from "../../data/songs/data";
 import { useDispatch, useSelector } from "react-redux";
 import { playSong } from "../../Redux/slices/SongSlice";
+import { IsplayingContext } from "../Context";
 
 const SongComp1 = () => {
 
   const [playingSongId, setPlayingSongId] = useState(1)
+  const {isPlaying, setIsPlaying} = useContext(IsplayingContext);
 
   const dispatch = useDispatch()
   
@@ -13,12 +15,17 @@ const SongComp1 = () => {
     dispatch(playSong(playingSongId))
   },[playingSongId])
 
+  const handleOnclick = (id) => {
+    setPlayingSongId(id)
+    setIsPlaying(true)
+  }
+
   const popularSongs = useSelector((state) => state.songs.popularSongs);
 
   const fetchsongs = () => {
     return popularSongs.map((song,index) => (
       <li key={song.songId} className="li-popular relative group"
-      onClick={() => setPlayingSongId(song.songId)}
+      onClick={() => handleOnclick(song.songId)}
       >
         <img src={song.img} alt="img" className="img-popular" />
         <div className="disc-popular-blur">
