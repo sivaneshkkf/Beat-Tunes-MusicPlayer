@@ -2,9 +2,8 @@ import React from "react";
 
 const SideNav = () => {
   return (
-    <div className="pt-3 hidden md:block p-5 w-fit h-screen overflow-y-scroll scrollbar bg-[#212326] border-r border-[#151719] rounded-r-lg">
-      <p className="title-col text-center mb-20">Music Menu</p>
-      <ul className="px-1 text-gray-200 text-xs font-medium space-y-5 ml-5">
+    <div className="pt-3 hidden md:block w-48 h-screen overflow-y-scroll scrollbar bg-[#212326] border-r border-[#151719] rounded-r-lg">
+      <ul className="px-1 text-gray-200 text-xs font-medium space-y-5 ml-5 mt-10">
         <li className="flex gap-2 items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"

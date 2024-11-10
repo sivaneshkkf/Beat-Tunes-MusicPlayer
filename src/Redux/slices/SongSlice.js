@@ -53,7 +53,7 @@ const songSlicer = createSlice({
             const id = action.payload;
             const currentIndex = state.songsList.findIndex(song => song.songId === id);
             console.log(action.payload, currentIndex)
-            if (currentIndex > state.songsList.length-1) {
+            if (currentIndex > 0) {
               // Find the next song, or loop back to the first song if at the end of the list
               const nextIndex = (currentIndex - 1)
               state.playingSong = state.songsList[nextIndex];

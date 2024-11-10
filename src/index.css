@@ -113,3 +113,7 @@
   /* .range-slider::-moz-range-track {
     @apply h-2 rounded-lg;
   } */
+  
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Edge */
+  }

@@ -27,11 +27,13 @@ const App = () => {
 
   return (
     <IsplayingContext.Provider value={{ isPlaying, setIsPlaying }}>
-      <div className="h-full flex overflow-hidden pb-10 bg-gradient-to-br from-primary via-middle to-secondary bg-cover bg-no-repeat">
+      <div className="h-full flex overflow-hidden bg-gradient-to-br from-primary via-middle to-secondary bg-cover bg-no-repeat">
         <SideNav />
-        <div className="w-full">
+        <div className="w-full h-screen">
           <Header />
-          <Outlet />
+          <div className="overflow-y-auto h-full scrollbar-hidden">
+            <Outlet />
+          </div>
           <PlayingSongComp />
         </div>
       </div>

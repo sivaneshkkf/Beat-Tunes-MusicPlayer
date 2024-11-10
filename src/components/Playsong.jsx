@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Slider from "@mui/material/Slider";
 import { IsplayingContext } from "./Context";
 import { nextSong, prevSong } from "../Redux/slices/SongSlice";
+import { formatTime } from "./utils/Format";
 
 const PlayingSongComp = () => {
   const [sliderVal, setSliderVal] = useState({
@@ -273,10 +274,10 @@ const PlayingSongComp = () => {
 
               <div className="flex justify-between absolute w-full -bottom-1">
                 <p id="duration" className="text-[12px] text-white">
-                  {memoizedPlayingSong?.duration}
+                  {formatTime(sliderVal.VALUE)}
                 </p>
                 <p id="duration" className="text-[12px] text-white">
-                  {memoizedPlayingSong?.duration}
+                  {formatTime(sliderVal.DURATION)}
                 </p>
               </div>
 

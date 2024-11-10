@@ -26,7 +26,7 @@ const SongComp2 = () => {
         <img
           src={song.img}
           alt="singer1"
-          className="w-full h-full object-cover"
+          className="w-14 h-14 object-cover"
         />
       </div>
       <div className="li-topplayed-disc">
@@ -78,12 +78,12 @@ const SongComp2 = () => {
     ))
   }
   return (
-    <div className="px-5 mt-5 md:px-8 w-full col-span-3 lg:w-9/12">
+    <div className="px-5 pb-52 lg:pb-20 mt-5 md:px-8 w-full col-span-3 lg:w-9/12">
       <div className="mb-2">
         <h3 className="text-white font-semibold">Top Played</h3>
       </div>
       <div>
-        <ul id="topPlayed" className="md:grid md:grid-cols-3 md:gap-5">
+        <ul id="topPlayed" className="md:grid md:grid-cols-2 md:gap-5 2xl:grid-cols-3">
 
           {fetchSongs()}
         </ul>
