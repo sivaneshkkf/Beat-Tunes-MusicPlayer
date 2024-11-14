@@ -7,34 +7,40 @@ import Home from "./pages/Home.jsx";
 import Search from "./pages/Search.jsx";
 import PlayList from "./pages/PlayList.jsx";
 import { Provider } from "react-redux";
-import {Store} from "./Redux/Store.js"
+import { Store } from "./Redux/Store.js";
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <App />,
+      children: [
+        {
+          path: "/",
+          element: <Home />,
+        },
+        {
+          path: "/search/:search",
+          element: <Search />,
+        },
+        {
+          path: "/playlist",
+          element: <PlayList />,
+        },
+      ],
+    },
+  ],
   {
     future: {
-      v7_startTransition: true, // Enable the future flag for startTransition
+      v7_partialHydration: true,
     },
-    path: "/",
-    element: <App />,
-    children: [
-      {
-        path: "/",
-        element: <Home />,
-      },
-      {
-        path: "/search/:search",
-        element: <Search />,
-      },
-      {
-        path: "/playlist",
-        element: <PlayList />,
-      },
-    ],
-  },
-]);
+  }
+);
 
 createRoot(document.getElementById("root")).render(
-  <Provider store={Store}>
-    <RouterProvider router={router} />
-  </Provider>
+  <StrictMode>
+    <Provider store={Store}>
+      <RouterProvider router={router} />
+    </Provider>
+  </StrictMode>
 );

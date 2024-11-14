@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { LoginFormOpenContext } from "./context/LoginContext";
 
 function Header() {
   const [searchInput, setSearchInput] = useState("");
+  const {loginFormOpen, setLoginFormOpen} = useContext(LoginFormOpenContext);
   const navigate = useNavigate();
 
   const handleOnChange = (e) => {
@@ -26,7 +28,7 @@ function Header() {
   return (
     <header className="space-y-2 pb-5 px-5 md:px-8">
       <div className="flex justify-between items-center">
-        <div className="flex gap-1">
+        <div className="flex gap-1 mt-2">
           <h3 className="text-white font-semibold text-xl sm:text-3xl">
             Beat<span className="text-rose-500 font-bold">Tunes</span>
           </h3>
@@ -58,7 +60,9 @@ function Header() {
             </svg>
           </div>
         </div>
-        <div className=" text-txtcolor">
+        <div className=" text-txtcolor mt-1"
+        onClick={() => setLoginFormOpen(true)}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"
@@ -72,7 +76,7 @@ function Header() {
           </svg>
         </div>
       </div>
-      <div className="flex items-center gap-2 lg:absolute lg:top-1 lg:right-20">
+      <div className="flex items-center gap-2 lg:absolute lg:top-0 lg:right-20">
         <div className="flex items-center relative flex-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -100,7 +104,7 @@ function Header() {
             width="20"
             height="20"
             viewBox="0 0 48 48"
-            className="text-white"
+            className="text-white hidden"
           >
             <g
               fill="none"

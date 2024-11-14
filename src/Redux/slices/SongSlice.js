@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import supabase from "../../Config/supabase";
 
 const initialState = {
     songsList: [],
@@ -6,6 +7,8 @@ const initialState = {
     popularSongs: [],
     topPlayedSongs:[],
     searchList: [],
+    userDetails: {},
+    userLikedSongs:{},
 };
 
 const songSlicer = createSlice({
@@ -17,7 +20,14 @@ const songSlicer = createSlice({
         },
 
         playSong: (state, action) => {
+            // Find the song to play and toggle its `play` status
             state.playingSong = state.songsList.find(song => song.songId === action.payload);
+
+            state.songsList = state.songsList.map(song =>
+                song.songId === action.payload
+                    ? { ...song, play: !song.play }
+                    : { ...song, play: false } // Reset play state for other songs
+            );
         },
 
         popularSongs: (state, action) => {
@@ -61,11 +71,20 @@ const songSlicer = createSlice({
                 state.playingSong = state.songsList[state.songsList.length-1];
             }
           },
+
+
+          addUserDetails: (state, action) => {
+            state.userDetails = action.payload
+          },
+
+          getUserLikedSongs : async(state, action) => {
+               state.userLikedSongs = action.payload
+          }
           
         
     },
 });
 
-export const { addSongs, playSong, popularSongs, topPlayedSongs, searchList, nextSong, prevSong } = songSlicer.actions;
+export const { addSongs, playSong, popularSongs, topPlayedSongs, searchList, nextSong, prevSong, addUserDetails, getUserLikedSongs } = songSlicer.actions;
 
 export default songSlicer.reducer;

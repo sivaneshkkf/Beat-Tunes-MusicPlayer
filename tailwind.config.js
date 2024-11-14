@@ -10,7 +10,8 @@ export default {
         primary: "#4A5260",
         middle: "#1D1F24",
         secondary : "#353531",
-        txtcolor : "#595B5C"
+        txtcolor : "#595B5C",
+        accent: "#FF0051",
       },
 
       animation: {
