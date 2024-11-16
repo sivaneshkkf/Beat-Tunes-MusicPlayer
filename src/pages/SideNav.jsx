@@ -1,11 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { NavBarContext } from "../components/context/NaveBarContext";
 
 const SideNav = () => {
   const { isNavBarOpen, setNavBarOpen } = useContext(NavBarContext);
-  const [sWidth, setSWidth] = useState("sm")
+  const [sWidth, setSWidth] = useState("lg")
+
+  const navbarRef = useRef(null);
 
 
   useEffect(()=> {
@@ -30,23 +32,21 @@ const SideNav = () => {
       
     }
    
-  },[])
+  },[sWidth])
 
 
-  // useEffect(() => {
-  //   function handleClick(e) {
-  //     console.log(sWidth,isNavBarOpen,e.target.id)
-  //     // Check if navbar is open and click happened outside the navbar
-  //     if (isNavBarOpen) {
-       
-  //         setNavBarOpen(false); // Close the navbar
-        
-  //     }
-  //   }
-  
-  //   document.addEventListener("click", handleClick);
-  //   return () => document.removeEventListener("click", handleClick);
-  // }, []);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (navbarRef.current && !navbarRef.current.contains(event.target)) {
+        setNavBarOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   
   
 
@@ -72,7 +72,7 @@ const SideNav = () => {
       transition={{ duration: 0.5, ease: "easeInOut" }}
       aria-hidden={!isNavBarOpen}
       role="navigation"
-      id="sideNav"
+      ref={navbarRef}
     >
       <ul className="px-1 text-gray-200 text-xs font-medium space-y-5 ml-5 mt-10">
         <Link to="/" className="flex gap-2 items-center"

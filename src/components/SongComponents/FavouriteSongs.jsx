@@ -50,6 +50,7 @@ const FavouriteSongs = () => {
         dispatch(likedClick(id));
       }
     } else {
+      alert("Please sign in to add songs to your favorites.")
       setLoginFormOpen(true);
     }
   }
@@ -77,7 +78,7 @@ const FavouriteSongs = () => {
 
   useEffect(() => {
     setFavSongs(songs);
-    console.log(favSongs);
+    //console.log(favSongs);
   }, [userLikedSongs]);
 
   const fetchsongs = () => {

@@ -57,7 +57,6 @@ const SignInForm = () => {
       if (user) {
         setSuccessMsg(true);
         let metadata = user.user_metadata;
-        console.log(metadata);
         setUserDetails(metadata);
         setIsLoading(false)
       }

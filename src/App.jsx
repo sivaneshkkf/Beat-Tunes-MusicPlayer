@@ -108,7 +108,7 @@ const App = () => {
               value={{ loginFormOpen, setLoginFormOpen }}
             >
               <IsplayingContext.Provider value={{ isPlaying, setIsPlaying }}>
-                <div className="h-full flex overflow-hidden bg-gradient-to-br from-primary via-middle to-secondary bg-cover bg-no-repeat">
+                <div className="h-screen overflow-hidden flex bg-gradient-to-br from-primary via-middle to-secondary bg-cover bg-no-repeat">
                   <SideNav />
                   <div className="w-full h-screen">
                     <Header />

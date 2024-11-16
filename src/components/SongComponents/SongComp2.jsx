@@ -41,6 +41,7 @@ const SongComp2 = () => {
         dispatch(likedClick(id));
       }
     } else {
+      alert("Please sign in to add songs to your favorites.")
       setLoginFormOpen(true);
     }
   }

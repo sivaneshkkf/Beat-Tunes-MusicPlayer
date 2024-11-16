@@ -26,7 +26,7 @@ const SuccessMsg = ({ formType }) => {
       }
     }, 3000);
 
-    console.log(formType)
+    //console.log(formType)
 
     return (
       <p>

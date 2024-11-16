@@ -32,7 +32,7 @@ const Search = () => {
 
 
   const searchSongList = useSelector(state => state.songs.searchList)
-  console.log(searchSongList)
+  //console.log(searchSongList)
 
   const fetchsongs = () => {
     return searchSongList.map((song,index) => (

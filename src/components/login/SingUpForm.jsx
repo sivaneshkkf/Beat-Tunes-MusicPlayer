@@ -63,7 +63,7 @@ const SingUpForm = () => {
   
       if (user) {
         setSuccessMsg(true);
-        console.log("User signed up successfully:", user);
+        //console.log("User signed up successfully:", user);
   
         // Insert a row in likedSongs for this user
         const { data: likedSongsData, error: insertError } = await supabase
@@ -76,7 +76,7 @@ const SingUpForm = () => {
           .select();
             
         if (likedSongsData) {
-          console.log("Table insert success:", likedSongsData);
+          //console.log("Table insert success:", likedSongsData);
         }
         if (insertError) {
           console.error("Error inserting into likedSongs:", insertError.message);

@@ -98,10 +98,10 @@ const PlayingSongComp = () => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause(); // Pause the song if it's playing
-        console.log("pause", isPlaying); // Toggle play state
+        //console.log("pause", isPlaying); // Toggle play state
       } else {
         audioRef.current.play(); // Play the song if it's paused
-        console.log("play", isPlaying); // Toggle play state
+        //console.log("play", isPlaying); // Toggle play state
       }
       setIsPlaying(!isPlaying);
     }

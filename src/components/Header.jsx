@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import {
   LoginFormOpenContext,
   UserDetailsContext,
@@ -43,7 +43,9 @@ function Header() {
             >
               <MenuIcon sx={{ color: "white" }} />
             </span>
-            <h3 className="text-white font-semibold text-xl sm:text-3xl">
+            <h3 className="text-white font-semibold text-xl sm:text-3xl"
+            onClick={() => navigate('/')}
+            >
               Beat<span className="text-rose-500 font-bold">Tunes</span>
             </h3>
           </div>
