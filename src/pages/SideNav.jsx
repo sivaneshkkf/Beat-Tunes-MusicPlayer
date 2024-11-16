@@ -14,6 +14,7 @@ const SideNav = () => {
 
     function handleRezise(){
       setSWidth(getScreenWidth())
+      
     }
     
     handleRezise();
@@ -22,7 +23,7 @@ const SideNav = () => {
 
     return () => window.removeEventListener("resize", handleRezise);
 
-  },[])
+  },[sWidth])
 
   useEffect(()=> {
     if(sWidth==="sm"){
@@ -37,7 +38,8 @@ const SideNav = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (navbarRef.current && !navbarRef.current.contains(event.target)) {
+      console.log(sWidth)
+      if (navbarRef.current && !navbarRef.current.contains(event.target) && sWidth === "sm") {
         setNavBarOpen(false);
       }
     };
@@ -46,7 +48,7 @@ const SideNav = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [sWidth]);
   
   
 
