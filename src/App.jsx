@@ -77,7 +77,7 @@ const App = () => {
             return null;
           }
 
-          //dispatch(getUserLikedSongs(data))
+          dispatch(getUserLikedSongs(data[0].songs))
         } catch (err) {
           console.error("Unexpected error fetching data:", err.message);
           return null;
@@ -86,11 +86,12 @@ const App = () => {
 
       dispatch(addUserDetails(userDetails))
       getUserSongs(userDetails.sub);
+    }else{
+      dispatch(getUserLikedSongs([]))
     }
   }, [userDetails]); // Fetch user songs only when userDetails is set
 
-  console.log(userSongs);
-  console.log(userDetails?.sub);
+  // console.log(userSongs);
 
   return (
     <UserDetailsContext.Provider value={{ userDetails, setUserDetails }}>

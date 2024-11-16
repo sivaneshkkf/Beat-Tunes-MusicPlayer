@@ -8,6 +8,7 @@ import {
   FormTypeContext,
   LoginFormOpenContext,
   SuccessMsgContext,
+  UserDetailsContext,
 } from "../context/LoginContext";
 import supabase from "../../Config/supabase";
 
@@ -16,7 +17,8 @@ const SingUpForm = () => {
   const { successMsg, setSuccessMsg } = useContext(SuccessMsgContext);
   const { errorMsg, setErrorMsg } = useContext(ErrorMsgContext);
   const { loginFormOpen, setLoginFormOpen } = useContext(LoginFormOpenContext);
-
+  const {userDetails, setUserDetails} = useContext(UserDetailsContext);
+  
   const schemaValidation = z.object({
     name: z.string().min(3, { message: "Invalid Name" }),
     email: z.string().email(),
@@ -62,7 +64,8 @@ const SingUpForm = () => {
         const { data: likedSongsData, error: insertError } = await supabase
           .from("likedSongs")
           .insert([{
-            user_id: user.id,   // Assuming 'user_id' links to the user
+            user_id: user.id,  // Assuming 'user_id' links to the user
+            user_name: user.user_metadata,
             songs: [],          // Initialize with an empty array for liked songs
           }])
           .select();

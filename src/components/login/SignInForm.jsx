@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import InputField from "./InputField";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ErrorMsgContext, FormTypeContext, LoginFormOpenContext, SuccessMsgContext } from "../context/LoginContext";
+import { ErrorMsgContext, FormTypeContext, LoginFormOpenContext, SuccessMsgContext, UserDetailsContext } from "../context/LoginContext";
 import supabase from "../../Config/supabase";
 
 const SignInForm = () => {
@@ -12,7 +12,7 @@ const SignInForm = () => {
   const {successMsg, setSuccessMsg} = useContext(SuccessMsgContext);
   const {errorMsg, setErrorMsg} = useContext(ErrorMsgContext);
   const { loginFormOpen, setLoginFormOpen } = useContext(LoginFormOpenContext);
-
+  const {userDetails, setUserDetails} = useContext(UserDetailsContext);
 
   const schemaValidation = z.object({
     email: z.string().email(),
@@ -45,6 +45,10 @@ const SignInForm = () => {
       };
       if (user) {
         setSuccessMsg(true)
+        let metadata = user.user_metadata;
+        console.log(metadata)
+      setUserDetails(metadata)
+
       }
     } catch (err) {
       setErrorMsg(err.message)

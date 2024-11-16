@@ -1,12 +1,13 @@
 import React, { useContext } from "react";
 import supabase from "../../Config/supabase";
-import { ErrorMsgContext, FormTypeContext, LoginFormOpenContext, SuccessMsgContext } from "../context/LoginContext";
+import { ErrorMsgContext, FormTypeContext, LoginFormOpenContext, SuccessMsgContext, UserDetailsContext } from "../context/LoginContext";
 
 const SingOut = () => {
   const { FormType, setFormType } = useContext(FormTypeContext);
   const { successMsg, setSuccessMsg } = useContext(SuccessMsgContext);
   const { loginFormOpen, setLoginFormOpen } = useContext(LoginFormOpenContext);
   const {errorMsg, setErrorMsg} = useContext(ErrorMsgContext);
+  const {userDetails, setUserDetails} = useContext(UserDetailsContext);
 
 
 
@@ -17,6 +18,7 @@ const SingOut = () => {
       console.error("Error signing out:", error.message)
     }else {
       setSuccessMsg(true);
+      setUserDetails(null)
     }
   };
 

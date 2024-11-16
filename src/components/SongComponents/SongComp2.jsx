@@ -1,19 +1,59 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { playSong } from "../../Redux/slices/SongSlice";
+import { likedClick, playSong } from "../../Redux/slices/SongSlice";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import songanim from "../../anim/songanim.lottie";
 import { IsplayingContext } from "../Context";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import { pink } from "@mui/material/colors";
+import { LoginFormOpenContext, UserDetailsContext } from "../context/LoginContext";
+import supabase from "../../Config/supabase";
 
 const SongComp2 = () => {
   const [playingSongId, setPlayingSongId] = useState(1);
-  const { isPlaying, setIsPlaying } = useContext(IsplayingContext)
+  const { isPlaying, setIsPlaying } = useContext(IsplayingContext);
+  const userLikedSongs = useSelector(state => state.songs.userLikedSongs)
+  const {userDetails} = useContext(UserDetailsContext)
+  const {loginFormOpen, setLoginFormOpen} = useContext(LoginFormOpenContext);
+
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(playSong(playingSongId));
   }, [playingSongId]);
+
+  // console.log(userLikedSongs)
+  function handleLike(id){
+    if(userDetails){
+      if(userLikedSongs.includes(id)){
+        const updatedArray = userLikedSongs.filter(songId => songId !== id);
+        updateTable(updatedArray)
+        dispatch(likedClick(id))
+      }else{
+        const updatedArray = [...userLikedSongs,id]
+        updateTable(updatedArray)
+        dispatch(likedClick(id))
+      }
+    }else{
+      setLoginFormOpen(true)
+    }
+   
+    
+  }
+
+  async function updateTable(arr){
+    const { error } = await supabase
+    .from('likedSongs')
+    .update({ songs: arr })
+    .eq('user_id', userDetails.sub )
+
+    if(error){
+      console.log("Update Table error: ",error.message)
+      return
+    }
+  }
 
   const songsFromRedux = useSelector((state) => state.songs.songsList);
 
@@ -23,8 +63,8 @@ const SongComp2 = () => {
         className="li-topplayed"
         key={song.songId}
         onClick={() => {
-          setPlayingSongId(song.songId)
-          setIsPlaying(true)
+          setPlayingSongId(song.songId);
+          setIsPlaying(true);
         }}
       >
         <div className="overflow-hidden w-14 h-14 flex justify-center items-center rounded-full">
@@ -43,56 +83,32 @@ const SongComp2 = () => {
           </p>
         </div>
         {song.play && isPlaying && (
-        <div className="lottifile">
-          <DotLottieReact
-            src={songanim}
-            loop
-            autoplay
-            style={{
-              width: '60px',
-              height: '30px',
-              filter: 'invert(50%) brightness(100%)', // Adjusted for a fully white effect
-            }}
-          />
-        </div>
-      )}
+          <div className="lottifile">
+            <DotLottieReact
+              src={songanim}
+              loop
+              autoplay
+              style={{
+                width: "60px",
+                height: "30px",
+                filter: "invert(50%) brightness(100%)", // Adjusted for a fully white effect
+              }}
+            />
+          </div>
+        )}
         <p className="text-xs text-gray-500 hidden">{song.duration}</p>
 
-        <div className="text-gray-500 flex items-center gap-3">
-          <div>
-            <span
-              id="pauseIcon"
-              className={`text-white ${song.play ? "hidden" : "block"}`}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="25"
-                height="25"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="currentColor"
-                  d="m9.5 16.5l7-4.5l-7-4.5zM12 22q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22"
-                />
-              </svg>
-            </span>
-            <span
-              id="playIcon"
-              className={`text-white ${song.play ? "block" : "hidden"}`}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="25"
-                height="25"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="currentColor"
-                  d="M9 16h2V8H9zm4 0h2V8h-2zm-1 6q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22"
-                />
-              </svg>
-            </span>
-          </div>
+        <div className="flex justify-center items-center p-2"
+         onClick={(event) => {
+          event.stopPropagation(); // Prevent triggering the li onClick
+          handleLike(song.songId);
+        }}
+        >
+          {song.liked ? (
+            <FavoriteIcon sx={{ color: pink[500], fontSize: 20 }}/>
+          ) : (
+            <FavoriteBorderOutlinedIcon sx={{color:"white", fontSize: 20 }}/>
+          )}
         </div>
       </li>
     ));
