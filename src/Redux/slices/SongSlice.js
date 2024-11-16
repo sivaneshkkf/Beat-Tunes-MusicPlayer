@@ -122,6 +122,16 @@ const songSlicer = createSlice({
             return { ...song, liked: false };
           }
         });
+
+        state.popularSongs = state.popularSongs.map((song) => {
+          if (state.userLikedSongs.includes(song.songId)) {
+            // If the song is already in the userLikedSongs array, set 'liked' to true
+            return { ...song, liked: true };
+          } else {
+            // For all other songs, set 'liked' to false
+            return { ...song, liked: false };
+          }
+        });
       },
       
   },

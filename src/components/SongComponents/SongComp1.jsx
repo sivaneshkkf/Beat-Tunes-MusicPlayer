@@ -1,28 +1,63 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Songs } from "../../data/songs/data";
 import { useDispatch, useSelector } from "react-redux";
-import { playSong } from "../../Redux/slices/SongSlice";
+import { likedClick, playSong } from "../../Redux/slices/SongSlice";
 import { IsplayingContext } from "../Context";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import songanim from "../../anim/songanim.lottie";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import { pink } from "@mui/material/colors";
+import {
+  LoginFormOpenContext,
+  UserDetailsContext,
+} from "../context/LoginContext";
+import supabase from "../../Config/supabase";
+import {motion} from "framer-motion"
 
 const SongComp1 = () => {
   const [playingSongId, setPlayingSongId] = useState(1);
   const { isPlaying, setIsPlaying } = useContext(IsplayingContext);
+  const { userDetails } = useContext(UserDetailsContext);
+  const { loginFormOpen, setLoginFormOpen } = useContext(LoginFormOpenContext);
+  const [likedBtnAnim, setLikedBtnAnim] = useState(-1)
+  
+  const userLikedSongs = useSelector((state) => state.songs.userLikedSongs);
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(playSong(playingSongId));
-  }, [playingSongId]);
 
   const handleOnclick = (id) => {
     setPlayingSongId(id);
     setIsPlaying(true);
   };
+
+  function handleLike(id) {
+    if (userDetails) {
+      if (userLikedSongs.includes(id)) {
+        const updatedArray = userLikedSongs.filter((songId) => songId !== id);
+        updateTable(updatedArray);
+        dispatch(likedClick(id));
+      } else {
+        const updatedArray = [...userLikedSongs, id];
+        updateTable(updatedArray);
+        dispatch(likedClick(id));
+      }
+    } else {
+      setLoginFormOpen(true);
+    }
+  }
+
+  async function updateTable(arr) {
+    const { error } = await supabase
+      .from("likedSongs")
+      .update({ songs: arr })
+      .eq("user_id", userDetails.sub);
+
+    if (error) {
+      console.log("Update Table error: ", error.message);
+      return;
+    }
+  }
 
   const popularSongs = useSelector((state) => state.songs.popularSongs);
 
@@ -56,11 +91,32 @@ const SongComp1 = () => {
               </div>
             )}
 
-            <div className="flex justify-center items-center">
+            <div
+              className="flex justify-center items-center p-2"
+              onClick={(event) => {
+                event.stopPropagation(); // Prevent triggering the li onClick
+                handleLike(song.songId);
+                setLikedBtnAnim(song.songId)
+              }}
+            >
               {song.liked ? (
-                <FavoriteIcon sx={{ color: pink[500], fontSize: 20 }} />
+                <div className="flex justify-center items-center relative">
+                  <FavoriteIcon sx={{ color: pink[500], fontSize: 20 }} />
+                  <motion.span className="absolute"
+                    initial={{y:0, opacity:1}}
+                    animate={song.liked && likedBtnAnim === song.songId ? {y:[0,-100,0], opacity:[0,1,0,0,0]} : {y:0,opacity:1}}
+                    transition={{duration:1.5, ease:"easeOut"}}
+                    style={{ willChange: "transform" }}
+                  >
+                    <FavoriteIcon
+                      sx={{ color: pink[500], fontSize: 20 }}
+                    />
+                  </motion.span>
+                </div>
               ) : (
-                <FavoriteBorderOutlinedIcon sx={{ fontSize: 20 }} />
+                <FavoriteBorderOutlinedIcon
+                  sx={{ color: "white", fontSize: 20 }}
+                />
               )}
             </div>
 

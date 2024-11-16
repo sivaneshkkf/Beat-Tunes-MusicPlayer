@@ -1,21 +1,23 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LoginFormOpenContext } from "./context/LoginContext";
+import { LoginFormOpenContext, UserDetailsContext } from "./context/LoginContext";
+import SearchIcon from "@mui/icons-material/Search";
 
 function Header() {
   const [searchInput, setSearchInput] = useState("");
-  const {loginFormOpen, setLoginFormOpen} = useContext(LoginFormOpenContext);
+  const { loginFormOpen, setLoginFormOpen } = useContext(LoginFormOpenContext);
+  const { userDetails, setUserDetails } = useContext(UserDetailsContext);
+
   const navigate = useNavigate();
 
   const handleOnChange = (e) => {
     const value = e.target.value;
-  
+
     // Only allow letters (uppercase and lowercase) and spaces
-    const lettersOnly = value.replace(/[^a-zA-Z\s]/g, '');
-  
+    const lettersOnly = value.replace(/[^a-zA-Z\s]/g, "");
+
     setSearchInput(lettersOnly);
   };
-  
 
   useEffect(() => {
     if (searchInput.length > 0) {
@@ -60,36 +62,46 @@ function Header() {
             </svg>
           </div>
         </div>
-        <div className=" text-txtcolor mt-1"
-        onClick={() => setLoginFormOpen(true)}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="32"
-            height="32"
-            viewBox="0 0 24 24"
-          >
-            <path
-              fill="currentColor"
-              d="M5.85 17.1q1.275-.975 2.85-1.537T12 15t3.3.563t2.85 1.537q.875-1.025 1.363-2.325T20 12q0-3.325-2.337-5.663T12 4T6.337 6.338T4 12q0 1.475.488 2.775T5.85 17.1M12 13q-1.475 0-2.488-1.012T8.5 9.5t1.013-2.488T12 6t2.488 1.013T15.5 9.5t-1.012 2.488T12 13m0 9q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22"
-            />
-          </svg>
+        <div className=" text-txtcolor mt-1 flex items-center gap-4">
+          <div className="hidden items-center gap-2 lg:flex">
+            <div className="flex items-center relative flex-1">
+              <SearchIcon
+                className="text-gray-400 absolute ml-2"
+                sx={{ fontSize: "20px" }}
+              />
+              <input
+                type="search"
+                placeholder="Search"
+                className="bg-gradient-to-r from-[#212735] to-[#151719] rounded-lg pl-8 pr-4 py-2 border-none outline-none focus:ring-1 focus:ring-zinc-800 w-full ring-1 ring-zinc-700 text-white text-sm"
+                value={searchInput}
+                onChange={handleOnChange}
+              />
+            </div>
+          </div>
+          <div onClick={() => setLoginFormOpen(true)} className="flex items-center justify-center gap-1">
+            <p className="font-sm font-semibold">
+              {userDetails? userDetails.Displayname : "Sign in"}
+            </p>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+            >
+              <path
+                fill="currentColor"
+                d="M5.85 17.1q1.275-.975 2.85-1.537T12 15t3.3.563t2.85 1.537q.875-1.025 1.363-2.325T20 12q0-3.325-2.337-5.663T12 4T6.337 6.338T4 12q0 1.475.488 2.775T5.85 17.1M12 13q-1.475 0-2.488-1.012T8.5 9.5t1.013-2.488T12 6t2.488 1.013T15.5 9.5t-1.012 2.488T12 13m0 9q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22"
+              />
+            </svg>
+          </div>
         </div>
       </div>
-      <div className="flex items-center gap-2 lg:absolute lg:top-0 lg:right-20">
+      <div className="flex items-center gap-2 lg:hidden">
         <div className="flex items-center relative flex-1">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
+          <SearchIcon
             className="text-gray-400 absolute ml-2"
-          >
-            <path
-              fill="currentColor"
-              d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5A6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5S14 7.01 14 9.5S11.99 14 9.5 14"
-            />
-          </svg>
+            sx={{ fontSize: "20px" }}
+          />
           <input
             type="search"
             placeholder="Search"

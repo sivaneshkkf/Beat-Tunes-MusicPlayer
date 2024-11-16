@@ -4,6 +4,7 @@ import {
   LoginFormOpenContext,
   SuccessMsgContext,
 } from "../context/LoginContext";
+import {motion} from "framer-motion"
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
 const SuccessMsg = ({ formType }) => {
@@ -40,7 +41,12 @@ const SuccessMsg = ({ formType }) => {
 
   return (
     <div>
-      <div className="w-96 bg-zinc-800 p-5 text-white text-xs md:text-sm rounded-md relative">
+      <motion.div className="w-96 bg-zinc-800 p-5 text-white text-xs md:text-sm rounded-md relative"
+       initial={{ y: 400 }}
+       animate={loginFormOpen ? { y: 0 } : {y:400}}
+       transition={{ duration: 0.5, type: "spring" }}
+       style={{ willChange: "transform" }}
+      >
         <div className="flex flex-col items-center justify-center p-10">
           <CheckCircleOutlineIcon
             sx={{ fontSize: 50, color: "green", margin: "8px" }}
@@ -48,7 +54,7 @@ const SuccessMsg = ({ formType }) => {
 
           <ShowMsg/>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

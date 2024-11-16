@@ -19,6 +19,7 @@ import supabase from "./Config/supabase";
 import {
   ErrorMsgContext,
   FormTypeContext,
+  LoadingContext,
   LoginFormOpenContext,
   SignUpUserStatus,
   SuccessMsgContext,
@@ -35,6 +36,7 @@ const App = () => {
   const [successMsg, setSuccessMsg] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
   const [userDetails, setUserDetails] = useState(null);
+  const [isLoading, setIsLoading] =useState(false)
 
   const userSongs = useSelector((state) => state.songs.userLikedSongs);
 
@@ -49,7 +51,8 @@ const App = () => {
   // Fetch user data from Supabase once on mount
   useEffect(() => {
     async function getUser() {
-      const { data: currentUser, error: userError } = await supabase.auth.getUser();
+      const { data: currentUser, error: userError } =
+        await supabase.auth.getUser();
       if (userError) {
         console.error("Error retrieving user:", userError.message);
         return;
@@ -64,7 +67,8 @@ const App = () => {
 
   // Fetch user songs after user details are set
   useEffect(() => {
-    if (userDetails?.sub) { // Check if userDetails are set before fetching songs
+    if (userDetails?.sub) {
+      // Check if userDetails are set before fetching songs
       async function getUserSongs(id) {
         try {
           const { data, error } = await supabase
@@ -77,17 +81,17 @@ const App = () => {
             return null;
           }
 
-          dispatch(getUserLikedSongs(data[0].songs))
+          dispatch(getUserLikedSongs(data[0].songs));
         } catch (err) {
           console.error("Unexpected error fetching data:", err.message);
           return null;
         }
       }
 
-      dispatch(addUserDetails(userDetails))
+      dispatch(addUserDetails(userDetails));
       getUserSongs(userDetails.sub);
-    }else{
-      dispatch(getUserLikedSongs([]))
+    } else {
+      dispatch(getUserLikedSongs([]));
     }
   }, [userDetails]); // Fetch user songs only when userDetails is set
 
@@ -95,29 +99,35 @@ const App = () => {
 
   return (
     <UserDetailsContext.Provider value={{ userDetails, setUserDetails }}>
-      <SignUpUserStatus.Provider value={{ isSignedIn, setIsSignedIn }}>
-        <LoginFormOpenContext.Provider value={{ loginFormOpen, setLoginFormOpen }}>
-          <IsplayingContext.Provider value={{ isPlaying, setIsPlaying }}>
-            <div className="h-full flex overflow-hidden bg-gradient-to-br from-primary via-middle to-secondary bg-cover bg-no-repeat">
-              <SideNav />
-              <div className="w-full h-screen">
-                <Header />
-                <div className="overflow-y-auto h-full scrollbar-hidden">
-                  <Outlet />
+      <LoadingContext.Provider value={{ isLoading, setIsLoading }}>
+        <SignUpUserStatus.Provider value={{ isSignedIn, setIsSignedIn }}>
+          <LoginFormOpenContext.Provider
+            value={{ loginFormOpen, setLoginFormOpen }}
+          >
+            <IsplayingContext.Provider value={{ isPlaying, setIsPlaying }}>
+              <div className="h-full flex overflow-hidden bg-gradient-to-br from-primary via-middle to-secondary bg-cover bg-no-repeat">
+                <SideNav />
+                <div className="w-full h-screen">
+                  <Header />
+                  <div className="overflow-y-auto h-full scrollbar-hidden">
+                    <Outlet />
+                  </div>
+                  <PlayingSongComp />
                 </div>
-                <PlayingSongComp />
+                <ErrorMsgContext.Provider value={{ errorMsg, setErrorMsg }}>
+                  <SuccessMsgContext.Provider
+                    value={{ successMsg, setSuccessMsg }}
+                  >
+                    <FormTypeContext.Provider value={{ FormType, setFormType }}>
+                      <LoginPage />
+                    </FormTypeContext.Provider>
+                  </SuccessMsgContext.Provider>
+                </ErrorMsgContext.Provider>
               </div>
-              <ErrorMsgContext.Provider value={{ errorMsg, setErrorMsg }}>
-                <SuccessMsgContext.Provider value={{ successMsg, setSuccessMsg }}>
-                  <FormTypeContext.Provider value={{ FormType, setFormType }}>
-                    <LoginPage />
-                  </FormTypeContext.Provider>
-                </SuccessMsgContext.Provider>
-              </ErrorMsgContext.Provider>
-            </div>
-          </IsplayingContext.Provider>
-        </LoginFormOpenContext.Provider>
-      </SignUpUserStatus.Provider>
+            </IsplayingContext.Provider>
+          </LoginFormOpenContext.Provider>
+        </SignUpUserStatus.Provider>
+      </LoadingContext.Provider>
     </UserDetailsContext.Provider>
   );
 };

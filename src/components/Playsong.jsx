@@ -32,10 +32,13 @@ const PlayingSongComp = () => {
   };
 
   useEffect(() => {
-    if (playingSong && isPlaying) {
+    if (playingSong) {
+      //console.log(playingSong)
       loadSong(playingSong.song);
-      audioRef.current.play();
-      setIsPlaying(true);
+      if(isPlaying){
+        audioRef.current.play();
+      }
+      //setIsPlaying(true);
     }
   }, [playingSong]);
 
@@ -95,10 +98,12 @@ const PlayingSongComp = () => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause(); // Pause the song if it's playing
+        console.log("pause",isPlaying) // Toggle play state
       } else {
         audioRef.current.play(); // Play the song if it's paused
+        console.log("play",isPlaying) // Toggle play state
       }
-      setIsPlaying(!isPlaying); // Toggle play state
+      setIsPlaying(!isPlaying);
     }
   };
 
@@ -117,12 +122,12 @@ const PlayingSongComp = () => {
 
   const handleNextBtn = (id) => {
     dispatch(nextSong(id));
-    console.log(playingSong);
+    //console.log(playingSong);
   };
 
   const handlePrevBtn = (id) => {
     dispatch(prevSong(id));
-    console.log(playingSong);
+    //console.log(playingSong);
   };
 
   return (

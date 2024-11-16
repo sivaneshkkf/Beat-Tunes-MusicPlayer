@@ -9,6 +9,7 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import { pink } from "@mui/material/colors";
 import { LoginFormOpenContext, UserDetailsContext } from "../context/LoginContext";
 import supabase from "../../Config/supabase";
+import {motion} from "framer-motion"
 
 const SongComp2 = () => {
   const [playingSongId, setPlayingSongId] = useState(1);
@@ -16,6 +17,7 @@ const SongComp2 = () => {
   const userLikedSongs = useSelector(state => state.songs.userLikedSongs)
   const {userDetails} = useContext(UserDetailsContext)
   const {loginFormOpen, setLoginFormOpen} = useContext(LoginFormOpenContext);
+  const [likedBtnAnim, setLikedBtnAnim] = useState(-1)
 
 
   const dispatch = useDispatch();
@@ -98,18 +100,34 @@ const SongComp2 = () => {
         )}
         <p className="text-xs text-gray-500 hidden">{song.duration}</p>
 
-        <div className="flex justify-center items-center p-2"
-         onClick={(event) => {
-          event.stopPropagation(); // Prevent triggering the li onClick
-          handleLike(song.songId);
-        }}
-        >
-          {song.liked ? (
-            <FavoriteIcon sx={{ color: pink[500], fontSize: 20 }}/>
-          ) : (
-            <FavoriteBorderOutlinedIcon sx={{color:"white", fontSize: 20 }}/>
-          )}
-        </div>
+        <div
+              className="flex justify-center items-center p-2"
+              onClick={(event) => {
+                event.stopPropagation(); // Prevent triggering the li onClick
+                handleLike(song.songId);
+                setLikedBtnAnim(song.songId)
+              }}
+            >
+              {song.liked ? (
+                <div className="flex justify-center items-center relative">
+                  <FavoriteIcon sx={{ color: pink[500], fontSize: 20 }} />
+                  <motion.span className="absolute"
+                    initial={{y:0, opacity:1}}
+                    animate={song.liked && likedBtnAnim === song.songId ? {y:[0,-100,0], opacity:[0,1,0,0,0]} : {y:0,opacity:1}}
+                    transition={{duration:1.5, ease:"easeOut"}}
+                    style={{ willChange: "transform" }}
+                  >
+                    <FavoriteIcon
+                      sx={{ color: pink[500], fontSize: 20 }}
+                    />
+                  </motion.span>
+                </div>
+              ) : (
+                <FavoriteBorderOutlinedIcon
+                  sx={{ color: "white", fontSize: 20 }}
+                />
+              )}
+            </div>
       </li>
     ));
   };

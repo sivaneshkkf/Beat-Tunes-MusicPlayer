@@ -3,16 +3,25 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import InputField from "./InputField";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ErrorMsgContext, FormTypeContext, LoginFormOpenContext, SuccessMsgContext, UserDetailsContext } from "../context/LoginContext";
+import {
+  ErrorMsgContext,
+  FormTypeContext,
+  LoadingContext,
+  LoginFormOpenContext,
+  SuccessMsgContext,
+  UserDetailsContext,
+} from "../context/LoginContext";
 import supabase from "../../Config/supabase";
+import { motion } from "framer-motion";
+import BtnComponent from "./BtnComponent";
 
 const SignInForm = () => {
-
   const { FormType, setFormType } = useContext(FormTypeContext);
-  const {successMsg, setSuccessMsg} = useContext(SuccessMsgContext);
-  const {errorMsg, setErrorMsg} = useContext(ErrorMsgContext);
+  const { successMsg, setSuccessMsg } = useContext(SuccessMsgContext);
+  const { errorMsg, setErrorMsg } = useContext(ErrorMsgContext);
   const { loginFormOpen, setLoginFormOpen } = useContext(LoginFormOpenContext);
-  const {userDetails, setUserDetails} = useContext(UserDetailsContext);
+  const { userDetails, setUserDetails } = useContext(UserDetailsContext);
+  const {isLoading, setIsLoading} = useContext(LoadingContext)
 
   const schemaValidation = z.object({
     email: z.string().email(),
@@ -30,6 +39,7 @@ const SignInForm = () => {
   });
 
   const sendFormData = async (formData) => {
+    setIsLoading(true)
     try {
       const {
         data: { user },
@@ -40,27 +50,39 @@ const SignInForm = () => {
       });
 
       if (error) {
-        setErrorMsg(error.message)
-        return console.error("Error signing in:", error.message)
-      };
+        setErrorMsg(error.message);
+        setIsLoading(false)
+        return console.error("Error signing in:", error.message);
+      }
       if (user) {
-        setSuccessMsg(true)
+        setSuccessMsg(true);
         let metadata = user.user_metadata;
-        console.log(metadata)
-      setUserDetails(metadata)
-
+        console.log(metadata);
+        setUserDetails(metadata);
+        setIsLoading(false)
       }
     } catch (err) {
-      setErrorMsg(err.message)
+      setErrorMsg(err.message);
+      setIsLoading(false)
       console.error("An unexpected error occurred:", err);
     }
   };
 
   return (
-    <div className="w-96 bg-zinc-800 p-5 text-white text-xs md:text-sm rounded-md relative">
+    <motion.div
+      className="w-96 bg-zinc-800 p-5 text-white text-xs md:text-sm rounded-md relative"
+      initial={{ y: 400 }}
+      animate={loginFormOpen ? { y: 0 } : {y:400}}
+      transition={{ duration: 0.5, type: "spring" }}
+      style={{ willChange: "transform" }}
+    >
       <h4 className="mb-5 text-center text-base">Sign in to your account</h4>
 
-      {errorMsg && <p  className="text-red-600 w-full text-center text-xs md:text-sm py-1">{errorMsg}</p>}
+      {errorMsg && (
+        <p className="text-red-600 w-full text-center text-xs md:text-sm py-1">
+          {errorMsg}
+        </p>
+      )}
 
       <form className="space-y-4" onSubmit={handleSubmit(sendFormData)}>
         <InputField
@@ -78,11 +100,15 @@ const SignInForm = () => {
         />
 
         <div className="space-y-2 pt-3">
-          <button className="bg-accent w-full py-1 rounded">Sign in</button>
-          <p className="cursor-pointer" onClick={() => {
-            setFormType("signUp")
-            setErrorMsg(null)
-            }}>
+          {/* <button className="bg-accent w-full py-1 rounded">Sign in</button> */}
+          <BtnComponent text="Sign in" loading= {isLoading}/>
+          <p
+            className="cursor-pointer"
+            onClick={() => {
+              setFormType("signUp");
+              setErrorMsg(null);
+            }}
+          >
             Don’t have an account yet?
             <span className="text-accent font-semibold ml-1">Sign up</span>
           </p>
@@ -105,7 +131,7 @@ const SignInForm = () => {
           ></path>
         </svg>
       </span>
-    </div>
+    </motion.div>
   );
 };
 

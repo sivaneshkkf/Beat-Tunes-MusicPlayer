@@ -6,11 +6,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ErrorMsgContext,
   FormTypeContext,
+  LoadingContext,
   LoginFormOpenContext,
   SuccessMsgContext,
   UserDetailsContext,
 } from "../context/LoginContext";
 import supabase from "../../Config/supabase";
+import {motion} from "framer-motion"
+
 
 const SingUpForm = () => {
   const { FormType, setFormType } = useContext(FormTypeContext);
@@ -18,6 +21,8 @@ const SingUpForm = () => {
   const { errorMsg, setErrorMsg } = useContext(ErrorMsgContext);
   const { loginFormOpen, setLoginFormOpen } = useContext(LoginFormOpenContext);
   const {userDetails, setUserDetails} = useContext(UserDetailsContext);
+  const {isLoading, setIsLoading} = useContext(LoadingContext)
+
   
   const schemaValidation = z.object({
     name: z.string().min(3, { message: "Invalid Name" }),
@@ -85,7 +90,12 @@ const SingUpForm = () => {
   
 
   return (
-    <div className="w-96 bg-zinc-800 p-5 text-white text-xs md:text-sm rounded-md relative">
+    <motion.div className="w-96 bg-zinc-800 p-5 text-white text-xs md:text-sm rounded-md relative"
+    initial={{ y: 400 }}
+    animate={loginFormOpen ? { y: 0 } : {y:400}}
+    transition={{ duration: 0.5, type: "spring" }}
+    style={{ willChange: "transform" }}
+    >
       <h4 className="mb-5 text-center text-base">Sign up</h4>
 
       {errorMsg && (
@@ -145,7 +155,7 @@ const SingUpForm = () => {
           ></path>
         </svg>
       </span>
-    </div>
+    </motion.div>
   );
 };
 
