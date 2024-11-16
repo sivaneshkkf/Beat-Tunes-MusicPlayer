@@ -6,7 +6,6 @@ import FavouriteSongs from '../components/SongComponents/FavouriteSongs'
 const Home = () => {
   return (
     <div className='h-full mt-2'>
-          <FavouriteSongs/>
           <SongComp1/>
           <SongComp2/>
     </div>

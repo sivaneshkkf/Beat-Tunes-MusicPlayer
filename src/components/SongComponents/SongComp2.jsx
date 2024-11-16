@@ -135,7 +135,7 @@ const SongComp2 = () => {
     ));
   };
   return (
-    <div className="px-5 pb-52 lg:pb-20 mt-5 md:px-8 w-full col-span-3 lg:w-9/12">
+    <div className="px-5 pb-60 lg:pb-20 mt-5 md:px-8 w-full col-span-3 lg:w-9/12">
       <div className="mb-2">
         <h3 className="text-white font-semibold">Top Played</h3>
       </div>

@@ -1,12 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LoginFormOpenContext, UserDetailsContext } from "./context/LoginContext";
+import {
+  LoginFormOpenContext,
+  UserDetailsContext,
+} from "./context/LoginContext";
 import SearchIcon from "@mui/icons-material/Search";
+import MenuIcon from "@mui/icons-material/Menu";
+import { NavBarContext } from "./context/NaveBarContext";
 
 function Header() {
   const [searchInput, setSearchInput] = useState("");
   const { loginFormOpen, setLoginFormOpen } = useContext(LoginFormOpenContext);
   const { userDetails, setUserDetails } = useContext(UserDetailsContext);
+  const {isNavBarOpen, setNavBarOpen} = useContext(NavBarContext)
 
   const navigate = useNavigate();
 
@@ -31,9 +37,16 @@ function Header() {
     <header className="space-y-2 pb-5 px-5 md:px-8">
       <div className="flex justify-between items-center">
         <div className="flex gap-1 mt-2">
-          <h3 className="text-white font-semibold text-xl sm:text-3xl">
-            Beat<span className="text-rose-500 font-bold">Tunes</span>
-          </h3>
+          <div className="flex gap-1 items-end">
+            <span className="sm:hidden cursor-pointer" 
+            onClick={() => setNavBarOpen(!isNavBarOpen)}
+            >
+              <MenuIcon sx={{ color: "white" }} />
+            </span>
+            <h3 className="text-white font-semibold text-xl sm:text-3xl">
+              Beat<span className="text-rose-500 font-bold">Tunes</span>
+            </h3>
+          </div>
 
           <div className="flex items-center justify-center">
             <svg
@@ -78,9 +91,12 @@ function Header() {
               />
             </div>
           </div>
-          <div onClick={() => setLoginFormOpen(true)} className="flex items-center justify-center gap-1">
+          <div
+            onClick={() => setLoginFormOpen(true)}
+            className="flex items-center justify-center gap-1"
+          >
             <p className="font-sm font-semibold">
-              {userDetails? userDetails.Displayname : "Sign in"}
+              {userDetails ? userDetails.Displayname : "Sign in"}
             </p>
             <svg
               xmlns="http://www.w3.org/2000/svg"

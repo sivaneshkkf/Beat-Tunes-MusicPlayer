@@ -1,11 +1,66 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { NavBarContext } from "../components/context/NaveBarContext";
 
 const SideNav = () => {
+  const { isNavBarOpen, setNavBarOpen } = useContext(NavBarContext);
+  const [sWidth, setSWidth] = useState("sm")
+
+
+  useEffect(()=> {
+
+    function handleRezise(){
+      setSWidth(getScreenWidth())
+    }
+
+    window.addEventListener("resize",handleRezise)
+
+    return () => window.removeEventListener("resize", handleRezise);
+
+  },[])
+
+  useEffect(()=> {
+    if(sWidth==="sm"){
+      setNavBarOpen(false)
+    }else{
+      setNavBarOpen(true)
+      
+    }
+   
+
+  },[sWidth])
+
+  console.log(sWidth)
+
+  function getScreenWidth() {
+    const screenWidth = window.innerWidth;
+    if (screenWidth >= 1024) {
+      return "xl";
+    } else if (screenWidth >= 768) {
+      return "lg";
+    } else if (screenWidth >= 640) {
+      return "md";
+    } else {
+      return "sm";
+    }
+  }
+
   return (
-    <div className="pt-3 hidden md:block w-48 h-screen overflow-y-scroll scrollbar bg-[#212326] border-r border-[#151719] rounded-r-lg">
+    <motion.div
+      className="pt-3 sm:static w-48 h-screen overflow-y-scroll scrollbar bg-[#212326] border-r border-[#151719] rounded-r-lg absolute z-50"
+      initial={{ x: -200 }}
+      animate={isNavBarOpen ? { x: 0 } : { x: -200 }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
+      aria-hidden={!isNavBarOpen}
+      role="navigation"
+    >
       <ul className="px-1 text-gray-200 text-xs font-medium space-y-5 ml-5 mt-10">
-        <Link to="/" className="flex gap-2 items-center">
+        <Link to="/" className="flex gap-2 items-center"
+        onClick={() => {
+          sWidth === "sm" && setNavBarOpen(false)
+        }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="25"
@@ -64,7 +119,11 @@ const SideNav = () => {
           </svg>
           <p>Albums</p>
         </li>
-        <Link to="/favourite" className="flex gap-2 items-center">
+        <Link to="/favourite" className="flex gap-2 items-center"
+        onClick={() => {
+          sWidth === "sm" && setNavBarOpen(false)
+        }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="25"
@@ -177,9 +236,25 @@ const SideNav = () => {
             </g>
           </svg>
           <p>Sleep Mode</p>
+          <span
+            className="text-lg p-3 cursor-pointer text-gray-300 absolute top-1 right-1 sm:hidden"
+            onClick={() => setNavBarOpen(false)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="1em"
+              height="1em"
+              viewBox="0 0 15 15"
+            >
+              <path
+                fill="currentColor"
+                d="M3.64 2.27L7.5 6.13l3.84-3.84A.92.92 0 0 1 12 2a1 1 0 0 1 1 1a.9.9 0 0 1-.27.66L8.84 7.5l3.89 3.89A.9.9 0 0 1 13 12a1 1 0 0 1-1 1a.92.92 0 0 1-.69-.27L7.5 8.87l-3.85 3.85A.92.92 0 0 1 3 13a1 1 0 0 1-1-1a.9.9 0 0 1 .27-.66L6.16 7.5L2.27 3.61A.9.9 0 0 1 2 3a1 1 0 0 1 1-1c.24.003.47.1.64.27"
+              ></path>
+            </svg>
+          </span>
         </li>
       </ul>
-    </div>
+    </motion.div>
   );
 };
 

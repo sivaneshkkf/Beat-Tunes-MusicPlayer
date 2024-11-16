@@ -14,6 +14,7 @@ import {
 } from "../context/LoginContext";
 import supabase from "../../Config/supabase";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const FavouriteSongs = () => {
   const [playingSongId, setPlayingSongId] = useState(1);
@@ -21,7 +22,7 @@ const FavouriteSongs = () => {
   const { userDetails } = useContext(UserDetailsContext);
   const { loginFormOpen, setLoginFormOpen } = useContext(LoginFormOpenContext);
   const [likedBtnAnim, setLikedBtnAnim] = useState(-1);
-  const [favSongs, setFavSongs] = useState([])
+  const [favSongs, setFavSongs] = useState([]);
 
   const userLikedSongs = useSelector((state) => state.songs.userLikedSongs);
 
@@ -67,17 +68,17 @@ const FavouriteSongs = () => {
 
   const songsFromRedux = useSelector((state) => state.songs.songsList);
 
-  const songs = songsFromRedux.filter(song => {
-    const id = song.songId
-    if(userLikedSongs.includes(id)){
-      return song
+  const songs = songsFromRedux.filter((song) => {
+    const id = song.songId;
+    if (userLikedSongs.includes(id)) {
+      return song;
     }
-  })
+  });
 
   useEffect(() => {
-    setFavSongs(songs)
-    console.log(favSongs)
-  }, [userLikedSongs])
+    setFavSongs(songs);
+    console.log(favSongs);
+  }, [userLikedSongs]);
 
   const fetchsongs = () => {
     return favSongs.map((song, index) => (
@@ -110,7 +111,7 @@ const FavouriteSongs = () => {
             )}
 
             <div
-              className="justify-center items-center p-2 hidden"
+              className="justify-center items-center p-2"
               onClick={(event) => {
                 // Stop the like button's click event from triggering the parent `li`'s `onClick`
                 event.stopPropagation();
@@ -146,19 +147,53 @@ const FavouriteSongs = () => {
   };
 
   return (
-    <div className={`overflow-hidden px-5 md:px-8 ${favSongs.length === 0? "hidden" : "block"}`}>
-      <div>
-        <h4 className="text-white text-sm font-semibold mb-2">
-          Favourite Songs
-        </h4>
-      </div>
-      <ul
-        id="popularUl"
-        className="grid gap-3 grid-cols-3 sm:flex sm:items-center w-fit sm:gap-5 sm:flex-wrap"
-      >
-        {fetchsongs()}
-      </ul>
-    </div>
+    <>
+      {favSongs.length !== 0 ? (
+        <div
+          className={`overflow-hidden px-5 md:px-8`}
+        >
+          <div>
+            <h4 className="text-white text-sm font-semibold mb-2">
+              Favourite Songs
+            </h4>
+          </div>
+          <ul
+            id="popularUl"
+            className="grid gap-3 grid-cols-3 sm:flex sm:items-center w-fit sm:gap-5 sm:flex-wrap"
+          >
+            {fetchsongs()}
+          </ul>
+        </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center h-full text-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+            className="w-16 h-16 text-gray-400 mb-4"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9 19V6.75a3.75 3.75 0 117.5 0V19m-3.75 0h3.75"
+            />
+          </svg>
+          <h2 className="text-lg font-semibold text-gray-200">
+            No Favourite Songs Yet
+          </h2>
+          <p className="text-sm text-gray-400 mt-2">
+            Add songs to your favourites to see them here.
+          </p>
+          <Link to="/"
+            className="mt-4 px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white font-semibold rounded-lg"
+          >
+            Explore Songs
+          </Link>
+        </div>
+      )}
+    </>
   );
 };
 
