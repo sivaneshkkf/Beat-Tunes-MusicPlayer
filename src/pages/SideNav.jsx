@@ -1,10 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const SideNav = () => {
   return (
     <div className="pt-3 hidden md:block w-48 h-screen overflow-y-scroll scrollbar bg-[#212326] border-r border-[#151719] rounded-r-lg">
       <ul className="px-1 text-gray-200 text-xs font-medium space-y-5 ml-5 mt-10">
-        <li className="flex gap-2 items-center">
+        <Link to="/" className="flex gap-2 items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="25"
@@ -17,8 +18,8 @@ const SideNav = () => {
             />
           </svg>
           <p>Home</p>
-        </li>
-        <li className="flex gap-2 items-center">
+        </Link>
+        <li className="flex gap-2 items-center opacity-20">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="25"
@@ -32,7 +33,7 @@ const SideNav = () => {
           </svg>
           <p>Generel</p>
         </li>
-        <li className="flex gap-2 items-center">
+        <li className="flex gap-2 items-center opacity-20">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="25"
@@ -46,7 +47,7 @@ const SideNav = () => {
           </svg>
           <p>Artist</p>
         </li>
-        <li className="flex gap-2 items-center">
+        <li className="flex gap-2 items-center opacity-20">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="25"
@@ -63,7 +64,7 @@ const SideNav = () => {
           </svg>
           <p>Albums</p>
         </li>
-        <li className="flex gap-2 items-center">
+        <Link to="/favourite" className="flex gap-2 items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="25"
@@ -76,8 +77,8 @@ const SideNav = () => {
             />
           </svg>
           <p>Favourites</p>
-        </li>
-        <li className="flex gap-2 items-center">
+        </Link>
+        <li className="flex gap-2 items-center opacity-20">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="25"
@@ -106,7 +107,7 @@ const SideNav = () => {
         </li>
       </ul>
       <p className="title-col text-center mt-20 mb-5">Playlist</p>
-      <ul className="px-1 text-gray-200 text-xs font-medium space-y-3 ml-5 pb-20 lg:pb-0">
+      <ul className="px-1 text-gray-200 text-xs font-medium space-y-3 ml-5 pb-20 lg:pb-0 opacity-20">
         <li className="flex gap-3 items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"

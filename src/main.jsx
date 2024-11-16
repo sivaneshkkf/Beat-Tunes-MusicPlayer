@@ -8,6 +8,7 @@ import Search from "./pages/Search.jsx";
 import PlayList from "./pages/PlayList.jsx";
 import { Provider } from "react-redux";
 import { Store } from "./Redux/Store.js";
+import FavouriteSongs from "./components/SongComponents/FavouriteSongs.jsx";
 
 const router = createBrowserRouter(
   [
@@ -18,6 +19,10 @@ const router = createBrowserRouter(
         {
           path: "/",
           element: <Home />,
+        },
+        {
+          path:"/favourite",
+          element: <FavouriteSongs/>
         },
         {
           path: "/search/:search",

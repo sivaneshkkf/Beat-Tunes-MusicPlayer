@@ -15,12 +15,13 @@ import {
 import supabase from "../../Config/supabase";
 import { motion } from "framer-motion";
 
-const SongComp1 = () => {
+const FavouriteSongs = () => {
   const [playingSongId, setPlayingSongId] = useState(1);
   const { isPlaying, setIsPlaying } = useContext(IsplayingContext);
   const { userDetails } = useContext(UserDetailsContext);
   const { loginFormOpen, setLoginFormOpen } = useContext(LoginFormOpenContext);
   const [likedBtnAnim, setLikedBtnAnim] = useState(-1);
+  const [favSongs, setFavSongs] = useState([])
 
   const userLikedSongs = useSelector((state) => state.songs.userLikedSongs);
 
@@ -64,10 +65,22 @@ const SongComp1 = () => {
     }
   }
 
-  const popularSongs = useSelector((state) => state.songs.popularSongs);
+  const songsFromRedux = useSelector((state) => state.songs.songsList);
+
+  const songs = songsFromRedux.filter(song => {
+    const id = song.songId
+    if(userLikedSongs.includes(id)){
+      return song
+    }
+  })
+
+  useEffect(() => {
+    setFavSongs(songs)
+    console.log(favSongs)
+  }, [userLikedSongs])
 
   const fetchsongs = () => {
-    return popularSongs.map((song, index) => (
+    return favSongs.map((song, index) => (
       <li
         key={song.songId}
         className="li-popular relative group"
@@ -97,7 +110,7 @@ const SongComp1 = () => {
             )}
 
             <div
-              className="flex justify-center items-center p-2"
+              className="justify-center items-center p-2 hidden"
               onClick={(event) => {
                 // Stop the like button's click event from triggering the parent `li`'s `onClick`
                 event.stopPropagation();
@@ -133,10 +146,10 @@ const SongComp1 = () => {
   };
 
   return (
-    <div className="overflow-hidden px-5 md:px-8 mt-5">
+    <div className={`overflow-hidden px-5 md:px-8 ${favSongs.length === 0? "hidden" : "block"}`}>
       <div>
         <h4 className="text-white text-sm font-semibold mb-2">
-          Popular Alubums
+          Favourite Songs
         </h4>
       </div>
       <ul
@@ -149,4 +162,4 @@ const SongComp1 = () => {
   );
 };
 
-export default SongComp1;
+export default FavouriteSongs;

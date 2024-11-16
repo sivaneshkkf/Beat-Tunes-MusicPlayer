@@ -1,10 +1,12 @@
 import React from 'react'
 import SongComp1 from '../components/SongComponents/SongComp1'
 import SongComp2 from '../components/SongComponents/SongComp2'
+import FavouriteSongs from '../components/SongComponents/FavouriteSongs'
 
 const Home = () => {
   return (
     <div className='h-full mt-2'>
+          <FavouriteSongs/>
           <SongComp1/>
           <SongComp2/>
     </div>
