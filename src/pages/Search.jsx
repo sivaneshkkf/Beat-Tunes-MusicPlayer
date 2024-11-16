@@ -76,7 +76,7 @@ const Search = () => {
   };
 
   return (
-    <div className="overflow-hidden px-5 md:px-8 h-screen pt-10">
+    <div className="overflow-hidden px-5 md:px-8 h-screen pt-5 lg:pt-10">
         <div>
             <h4 className="text-white text-sm font-semibold mb-5">Search Result - {searchSongList.length}</h4>
         </div>

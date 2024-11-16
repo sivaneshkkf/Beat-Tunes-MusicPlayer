@@ -35,7 +35,7 @@ const PlayingSongComp = () => {
     if (playingSong) {
       //console.log(playingSong)
       loadSong(playingSong.song);
-      if(isPlaying){
+      if (isPlaying) {
         audioRef.current.play();
       }
       //setIsPlaying(true);
@@ -98,10 +98,10 @@ const PlayingSongComp = () => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause(); // Pause the song if it's playing
-        console.log("pause",isPlaying) // Toggle play state
+        console.log("pause", isPlaying); // Toggle play state
       } else {
         audioRef.current.play(); // Play the song if it's paused
-        console.log("play",isPlaying) // Toggle play state
+        console.log("play", isPlaying); // Toggle play state
       }
       setIsPlaying(!isPlaying);
     }
@@ -151,95 +151,22 @@ const PlayingSongComp = () => {
           </div>
 
           <div className="flex-1 mx-2">
-            <div className="text-gray-500 flex items-center gap-3 justify-center lg:py-5 pb-2">
-              <span
-                id="preSongBtn"
-                className="text-white transform rotate-180 cursor-pointer"
-                onClick={() => handlePrevBtn(memoizedPlayingSong?.songId)}
-              >
-                <svg
-                  className="xl:w-10 xl:h-10"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="25"
-                  height="25"
-                  viewBox="0 0 24 24"
+          <div className="flex items-center gap-2">
+                <p
+                  id="psName"
+                  className="text-white text-sm font-semibold line-clamp-1"
                 >
-                  <path
-                    fill="currentColor"
-                    d="M2 5v14c0 .86 1.012 1.318 1.659.753l8-7a1 1 0 0 0 0-1.506l-8-7C3.012 3.682 2 4.141 2 5m11 0v14c0 .86 1.012 1.318 1.659.753l8-7a1 1 0 0 0 0-1.506l-8-7C14.012 3.682 13 4.141 13 5"
-                  />
-                </svg>
-              </span>
-
-              <div
-                id="iconWrapper"
-                className="cursor-pointer"
-                onClick={togglePlay}
-              >
-                {/* Play/Pause Icon */}
-                <span
-                  id="footerplayIcon"
-                  className={`cursor-pointer text-white ${
-                    isPlaying ? "block" : "hidden"
-                  }`}
+                  {memoizedPlayingSong?.name}
+                </p>
+                <p
+                  id="psArtist"
+                  className="text-gray-500 text-xs font-medium line-clamp-1"
                 >
-                  <svg
-                    className="xl:w-14 xl:h-14"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="32"
-                    height="32"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      fill="currentColor"
-                      d="M9 16h2V8H9zm4 0h2V8h-2zm-1 6q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22"
-                    />
-                  </svg>
-                </span>
-
-                <span
-                  id="footerpauseIcon"
-                  className={`cursor-pointer text-white ${
-                    isPlaying ? "hidden" : "block"
-                  }`}
-                >
-                  <svg
-                    className="xl:w-14 xl:h-14"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="32"
-                    height="32"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      fill="currentColor"
-                      d="m9.5 16.5l7-4.5l-7-4.5zM12 22q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22"
-                    />
-                  </svg>
-                </span>
+                  {memoizedPlayingSong?.artist}
+                </p>
               </div>
 
-              <span
-                className="text-white cursor-pointer"
-                id="nextSongBtn"
-                onClick={() => {
-                  handleNextBtn(memoizedPlayingSong.songId);
-                }}
-              >
-                <svg
-                  className="xl:w-10 xl:h-10"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="25"
-                  height="25"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M2 5v14c0 .86 1.012 1.318 1.659.753l8-7a1 1 0 0 0 0-1.506l-8-7C3.012 3.682 2 4.141 2 5m11 0v14c0 .86 1.012 1.318 1.659.753l8-7a1 1 0 0 0 0-1.506l-8-7C14.012 3.682 13 4.141 13 5"
-                  />
-                </svg>
-              </span>
-            </div>
-            <div className="relative">
+            <div className="relative ml-1">
               <audio ref={audioRef} className="hidden" controls>
                 <source
                   src={memoizedPlayingSong ? memoizedPlayingSong.song : ""}
@@ -286,21 +213,6 @@ const PlayingSongComp = () => {
                 </p>
               </div>
 
-              <div className="lg:space-y-1 flex items-center justify-between absolute -top-3">
-                <p
-                  id="psName"
-                  className="text-white text-sm font-semibold w-full line-clamp-1"
-                >
-                  {memoizedPlayingSong?.name}
-                </p>
-                <p
-                  id="psArtist"
-                  className="text-gray-500 text-xs font-medium hidden"
-                >
-                  {memoizedPlayingSong?.artist}
-                </p>
-              </div>
-
               {/* <input
               ref={sliderRef}
               type="range"
@@ -314,8 +226,103 @@ const PlayingSongComp = () => {
               }}
             /> */}
             </div>
+
+            
           </div>
+          
         </div>
+        <div className="flex justify-center items-center gap-2">
+
+              {/* play controls */}
+              <div className="text-gray-500 flex items-center gap-3 justify-center lg:py-5">
+                <span
+                  id="preSongBtn"
+                  className="text-white transform rotate-180 cursor-pointer"
+                  onClick={() => handlePrevBtn(memoizedPlayingSong?.songId)}
+                >
+                  <svg
+                    className="xl:w-10 xl:h-10"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="25"
+                    height="25"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M2 5v14c0 .86 1.012 1.318 1.659.753l8-7a1 1 0 0 0 0-1.506l-8-7C3.012 3.682 2 4.141 2 5m11 0v14c0 .86 1.012 1.318 1.659.753l8-7a1 1 0 0 0 0-1.506l-8-7C14.012 3.682 13 4.141 13 5"
+                    />
+                  </svg>
+                </span>
+
+                <div
+                  id="iconWrapper"
+                  className="cursor-pointer"
+                  onClick={togglePlay}
+                >
+                  {/* Play/Pause Icon */}
+                  <span
+                    id="footerplayIcon"
+                    className={`cursor-pointer text-white ${
+                      isPlaying ? "block" : "hidden"
+                    }`}
+                  >
+                    <svg
+                      className="xl:w-14 xl:h-14 w-12 h-12"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="32"
+                      height="32"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M9 16h2V8H9zm4 0h2V8h-2zm-1 6q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22"
+                      />
+                    </svg>
+                  </span>
+
+                  <span
+                    id="footerpauseIcon"
+                    className={`cursor-pointer text-white ${
+                      isPlaying ? "hidden" : "block"
+                    }`}
+                  >
+                    <svg
+                      className="xl:w-14 xl:h-14 w-12 h-12"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="32"
+                      height="32"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="m9.5 16.5l7-4.5l-7-4.5zM12 22q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22"
+                      />
+                    </svg>
+                  </span>
+                </div>
+
+                <span
+                  className="text-white cursor-pointer"
+                  id="nextSongBtn"
+                  onClick={() => {
+                    handleNextBtn(memoizedPlayingSong.songId);
+                  }}
+                >
+                  <svg
+                    className="xl:w-10 xl:h-10"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="25"
+                    height="25"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M2 5v14c0 .86 1.012 1.318 1.659.753l8-7a1 1 0 0 0 0-1.506l-8-7C3.012 3.682 2 4.141 2 5m11 0v14c0 .86 1.012 1.318 1.659.753l8-7a1 1 0 0 0 0-1.506l-8-7C14.012 3.682 13 4.141 13 5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </div>
       </div>
     </div>
   );
