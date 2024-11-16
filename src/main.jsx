@@ -31,6 +31,7 @@ const router = createBrowserRouter(
     },
   ],
   {
+    basename: "/Beat-Tunes-MusicPlayer",
     future: {
       v7_partialHydration: true,
     },
