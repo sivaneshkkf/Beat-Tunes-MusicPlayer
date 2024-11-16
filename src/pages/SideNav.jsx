@@ -48,7 +48,8 @@ const SideNav = () => {
 
   return (
     <motion.div
-      className="pt-3 sm:static w-48 h-screen overflow-y-scroll scrollbar bg-[#212326] border-r border-[#151719] rounded-r-lg absolute z-50"
+    className={`pt-3 md:static w-48 h-screen overflow-y-scroll scrollbar bg-[#212326] border-r border-[#151719] rounded-r-lg 
+      ${sWidth === "sm" ? "absolute z-40" : ""}`}
       initial={{ x: -200 }}
       animate={isNavBarOpen ? { x: 0 } : { x: -200 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}

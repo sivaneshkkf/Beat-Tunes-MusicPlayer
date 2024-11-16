@@ -131,7 +131,7 @@ const PlayingSongComp = () => {
   };
 
   return (
-    <div className="fixed bottom-0 right-0 left-0 lg:left-auto lg:mb-5 lg:bottom-0 lg:mr-8 select-none">
+    <div className="fixed bottom-0 right-0 left-0 lg:left-auto lg:mb-5 lg:bottom-0 lg:mr-8 select-none z-50">
       <div className="items-center p-2 gap-3 backdrop-blur-lg bg-white bg-opacity-5 lg:rounded-lg lg:block">
         <div className="flex justify-between items-center lg:block">
           <div className="flex flex-col items-center">
