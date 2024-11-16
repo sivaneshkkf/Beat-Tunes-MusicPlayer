@@ -13,15 +13,15 @@ import {
   UserDetailsContext,
 } from "../context/LoginContext";
 import supabase from "../../Config/supabase";
-import {motion} from "framer-motion"
+import { motion } from "framer-motion";
 
 const SongComp1 = () => {
   const [playingSongId, setPlayingSongId] = useState(1);
   const { isPlaying, setIsPlaying } = useContext(IsplayingContext);
   const { userDetails } = useContext(UserDetailsContext);
   const { loginFormOpen, setLoginFormOpen } = useContext(LoginFormOpenContext);
-  const [likedBtnAnim, setLikedBtnAnim] = useState(-1)
-  
+  const [likedBtnAnim, setLikedBtnAnim] = useState(-1);
+
   const userLikedSongs = useSelector((state) => state.songs.userLikedSongs);
 
   const dispatch = useDispatch();
@@ -94,26 +94,31 @@ const SongComp1 = () => {
             <div
               className="flex justify-center items-center p-2"
               onClick={(event) => {
-                event.stopPropagation(); // Prevent triggering the li onClick
-                handleLike(song.songId);
-                setLikedBtnAnim(song.songId)
+                event.stopPropagation(); // Prevent triggering the parent element's onClick
+                handleLike(song.songId); // Handle the like functionality
+                setLikedBtnAnim(song.songId); // Trigger the animation
               }}
             >
               {song.liked ? (
                 <div className="flex justify-center items-center relative">
+                  {/* Static Favorite Icon */}
                   <FavoriteIcon sx={{ color: pink[500], fontSize: 20 }} />
-                  <motion.span className="absolute"
-                    initial={{y:0, opacity:1}}
-                    animate={song.liked && likedBtnAnim === song.songId ? {y:[0,-100,0], opacity:[0,1,0,0,0]} : {y:0,opacity:1}}
-                    transition={{duration:1.5, ease:"easeOut"}}
-                    style={{ willChange: "transform" }}
-                  >
-                    <FavoriteIcon
-                      sx={{ color: pink[500], fontSize: 20 }}
-                    />
-                  </motion.span>
+
+                  {/* Animated Favorite Icon */}
+                  {likedBtnAnim === song.songId && (
+                    <motion.span
+                      className="absolute"
+                      initial={{ y: 0, opacity: 1 }}
+                      animate={{ y: [0, -100, 0], opacity: [0, 1, 0, 0, 0] }}
+                      transition={{ duration: 1.5, ease: "easeOut" }}
+                      style={{ willChange: "transform" }}
+                    >
+                      <FavoriteIcon sx={{ color: pink[500], fontSize: 20 }} />
+                    </motion.span>
+                  )}
                 </div>
               ) : (
+                // Unliked (Outlined) Icon
                 <FavoriteBorderOutlinedIcon
                   sx={{ color: "white", fontSize: 20 }}
                 />

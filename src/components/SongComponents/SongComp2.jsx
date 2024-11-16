@@ -7,18 +7,20 @@ import { IsplayingContext } from "../Context";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import { pink } from "@mui/material/colors";
-import { LoginFormOpenContext, UserDetailsContext } from "../context/LoginContext";
+import {
+  LoginFormOpenContext,
+  UserDetailsContext,
+} from "../context/LoginContext";
 import supabase from "../../Config/supabase";
-import {motion} from "framer-motion"
+import { motion } from "framer-motion";
 
 const SongComp2 = () => {
   const [playingSongId, setPlayingSongId] = useState(1);
   const { isPlaying, setIsPlaying } = useContext(IsplayingContext);
-  const userLikedSongs = useSelector(state => state.songs.userLikedSongs)
-  const {userDetails} = useContext(UserDetailsContext)
-  const {loginFormOpen, setLoginFormOpen} = useContext(LoginFormOpenContext);
-  const [likedBtnAnim, setLikedBtnAnim] = useState(-1)
-
+  const userLikedSongs = useSelector((state) => state.songs.userLikedSongs);
+  const { userDetails } = useContext(UserDetailsContext);
+  const { loginFormOpen, setLoginFormOpen } = useContext(LoginFormOpenContext);
+  const [likedBtnAnim, setLikedBtnAnim] = useState(-1);
 
   const dispatch = useDispatch();
 
@@ -27,33 +29,31 @@ const SongComp2 = () => {
   }, [playingSongId]);
 
   // console.log(userLikedSongs)
-  function handleLike(id){
-    if(userDetails){
-      if(userLikedSongs.includes(id)){
-        const updatedArray = userLikedSongs.filter(songId => songId !== id);
-        updateTable(updatedArray)
-        dispatch(likedClick(id))
-      }else{
-        const updatedArray = [...userLikedSongs,id]
-        updateTable(updatedArray)
-        dispatch(likedClick(id))
+  function handleLike(id) {
+    if (userDetails) {
+      if (userLikedSongs.includes(id)) {
+        const updatedArray = userLikedSongs.filter((songId) => songId !== id);
+        updateTable(updatedArray);
+        dispatch(likedClick(id));
+      } else {
+        const updatedArray = [...userLikedSongs, id];
+        updateTable(updatedArray);
+        dispatch(likedClick(id));
       }
-    }else{
-      setLoginFormOpen(true)
+    } else {
+      setLoginFormOpen(true);
     }
-   
-    
   }
 
-  async function updateTable(arr){
+  async function updateTable(arr) {
     const { error } = await supabase
-    .from('likedSongs')
-    .update({ songs: arr })
-    .eq('user_id', userDetails.sub )
+      .from("likedSongs")
+      .update({ songs: arr })
+      .eq("user_id", userDetails.sub);
 
-    if(error){
-      console.log("Update Table error: ",error.message)
-      return
+    if (error) {
+      console.log("Update Table error: ", error.message);
+      return;
     }
   }
 
@@ -101,33 +101,36 @@ const SongComp2 = () => {
         <p className="text-xs text-gray-500 hidden">{song.duration}</p>
 
         <div
-              className="flex justify-center items-center p-2"
-              onClick={(event) => {
-                event.stopPropagation(); // Prevent triggering the li onClick
-                handleLike(song.songId);
-                setLikedBtnAnim(song.songId)
-              }}
-            >
-              {song.liked ? (
-                <div className="flex justify-center items-center relative">
+          className="flex justify-center items-center p-2"
+          onClick={(event) => {
+            event.stopPropagation(); // Prevent triggering the parent element's onClick
+            handleLike(song.songId); // Handle the like functionality
+            setLikedBtnAnim(song.songId); // Trigger the animation
+          }}
+        >
+          {song.liked ? (
+            <div className="flex justify-center items-center relative">
+              {/* Static Favorite Icon */}
+              <FavoriteIcon sx={{ color: pink[500], fontSize: 20 }} />
+
+              {/* Animated Favorite Icon */}
+              {likedBtnAnim === song.songId && (
+                <motion.span
+                  className="absolute"
+                  initial={{ y: 0, opacity: 1 }}
+                  animate={{ y: [0, -100, 0], opacity: [0, 1, 0, 0, 0] }}
+                  transition={{ duration: 1.5, ease: "easeOut" }}
+                  style={{ willChange: "transform" }}
+                >
                   <FavoriteIcon sx={{ color: pink[500], fontSize: 20 }} />
-                  <motion.span className="absolute"
-                    initial={{y:0, opacity:1}}
-                    animate={song.liked && likedBtnAnim === song.songId ? {y:[0,-100,0], opacity:[0,1,0,0,0]} : {y:0,opacity:1}}
-                    transition={{duration:1.5, ease:"easeOut"}}
-                    style={{ willChange: "transform" }}
-                  >
-                    <FavoriteIcon
-                      sx={{ color: pink[500], fontSize: 20 }}
-                    />
-                  </motion.span>
-                </div>
-              ) : (
-                <FavoriteBorderOutlinedIcon
-                  sx={{ color: "white", fontSize: 20 }}
-                />
+                </motion.span>
               )}
             </div>
+          ) : (
+            // Unliked (Outlined) Icon
+            <FavoriteBorderOutlinedIcon sx={{ color: "white", fontSize: 20 }} />
+          )}
+        </div>
       </li>
     ));
   };
