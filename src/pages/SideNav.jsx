@@ -13,6 +13,8 @@ const SideNav = () => {
     function handleRezise(){
       setSWidth(getScreenWidth())
     }
+    
+    handleRezise();
 
     window.addEventListener("resize",handleRezise)
 
@@ -28,10 +30,25 @@ const SideNav = () => {
       
     }
    
+  },[])
 
-  },[sWidth])
 
-  console.log(sWidth)
+  // useEffect(() => {
+  //   function handleClick(e) {
+  //     console.log(sWidth,isNavBarOpen,e.target.id)
+  //     // Check if navbar is open and click happened outside the navbar
+  //     if (isNavBarOpen) {
+       
+  //         setNavBarOpen(false); // Close the navbar
+        
+  //     }
+  //   }
+  
+  //   document.addEventListener("click", handleClick);
+  //   return () => document.removeEventListener("click", handleClick);
+  // }, []);
+  
+  
 
   function getScreenWidth() {
     const screenWidth = window.innerWidth;
@@ -55,6 +72,7 @@ const SideNav = () => {
       transition={{ duration: 0.5, ease: "easeInOut" }}
       aria-hidden={!isNavBarOpen}
       role="navigation"
+      id="sideNav"
     >
       <ul className="px-1 text-gray-200 text-xs font-medium space-y-5 ml-5 mt-10">
         <Link to="/" className="flex gap-2 items-center"

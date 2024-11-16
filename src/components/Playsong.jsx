@@ -137,7 +137,7 @@ const PlayingSongComp = () => {
           <div className="flex flex-col items-center">
             <div
               id="playImg"
-              className={`overflow-hidden w-14 h-14 flex justify-center items-center rounded-full lg:w-52 lg:h-52 lg:rounded-lg xl:w-80 xl:h-72 lg:animate-none ${
+              className={`overflow-hidden w-14 h-14 flex justify-center items-center rounded-full lg:w-52 lg:h-52 lg:rounded-lg xl:w-60 xl:h-64 2xl:w-72 2xl:h-72 1580px:w-80 1580px:h-80 lg:animate-none ${
                 isPlaying ? "animate-spinSlow " : "animate-none"
               }`}
             >

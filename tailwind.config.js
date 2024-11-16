@@ -13,6 +13,9 @@ export default {
         txtcolor : "#595B5C",
         accent: "#FF0051",
       },
+      screens: {
+        '1580px': '1580px', // Custom breakpoint
+      },
 
       animation: {
         spinSlow: 'spin 3s linear infinite',
