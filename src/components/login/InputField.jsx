@@ -7,7 +7,7 @@ const InputField = ({ label, id, type = "text", register, error }) => {
       <input
         type={type}
         id={id}
-        className="px-2 py-1 w-full mt-1 rounded bg-zinc-700 outline-none"
+        className="px-2 py-2 w-full mt-1 rounded bg-zinc-700 outline-none"
         {...register}
       />
       {error && (

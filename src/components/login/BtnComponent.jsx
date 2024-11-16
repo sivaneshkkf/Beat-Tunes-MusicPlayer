@@ -3,7 +3,7 @@ import React from "react";
 const BtnComponent = ({ loading, text, onClick, className = "" }) => {
   return (
     <button
-      className={`bg-accent w-full py-1 rounded flex items-center justify-center gap-2 ${className}`}
+      className={`bg-accent w-full py-2 rounded flex items-center justify-center gap-2 ${className}`}
       onClick={onClick}
     >
       {loading && (
