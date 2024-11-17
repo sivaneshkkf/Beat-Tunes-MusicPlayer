@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom';
 import { playSong, searchList } from '../Redux/slices/SongSlice';
 import { IsplayingContext } from '../components/Context';
+import { PlayingContext } from '../components/context/PlayingContext';
 
 const Search = () => {
 
-  const [playingSongId, setPlayingSongId] = useState(1)
+  const {playingSongId, setPlayingSongId} = useContext(PlayingContext);
 
   const {isPlaying, setIsPlaying} = useContext(IsplayingContext);
 
