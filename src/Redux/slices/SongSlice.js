@@ -18,18 +18,19 @@ const songSlicer = createSlice({
     addSongs: (state, action) => {
       state.songsList = action.payload;
 
-      state.songsList = state.songsList.map(
-        (song) =>
-          song.songId === action.payload
-            ? { ...song, play: true }
-            : { ...song, play: false } // Reset play state for other songs
-      );
     },
 
     playSong: (state, action) => {
       // Find the song to play and toggle its `play` status
       state.playingSong = state.songsList.find(
         (song) => song.songId === action.payload
+      );
+
+      state.songsList = state.songsList.map(
+        (song) =>
+          song.songId === action.payload
+            ? { ...song, play: true }
+            : { ...song, play: false } // Reset play state for other songs
       );
     },
 
