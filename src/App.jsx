@@ -27,6 +27,7 @@ import {
 } from "./components/context/LoginContext";
 import LoginPage from "./components/LoginPage";
 import { NavBarContext } from "./components/context/NaveBarContext";
+import { PlayingContext } from "./components/context/PlayingContext";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -38,7 +39,8 @@ const App = () => {
   const [errorMsg, setErrorMsg] = useState(null);
   const [userDetails, setUserDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [isNavBarOpen, setNavBarOpen] = useState(false)
+  const [isNavBarOpen, setNavBarOpen] = useState(false);
+  const [playingSongId, setPlayingSongId] = useState(1);
 
   const userSongs = useSelector((state) => state.songs.userLikedSongs);
 
@@ -107,29 +109,33 @@ const App = () => {
             <LoginFormOpenContext.Provider
               value={{ loginFormOpen, setLoginFormOpen }}
             >
-              <IsplayingContext.Provider value={{ isPlaying, setIsPlaying }}>
-                <div className="h-screen overflow-hidden flex bg-gradient-to-br from-primary via-middle to-secondary bg-cover bg-no-repeat">
-                  <SideNav />
-                  <div className="w-full h-screen">
-                    <Header />
-                    <div className="overflow-y-auto h-full scrollbar-hidden">
-                      <Outlet />
+              <PlayingContext.Provider
+                value={{ playingSongId, setPlayingSongId }}
+              >
+                <IsplayingContext.Provider value={{ isPlaying, setIsPlaying }}>
+                  <div className="h-screen overflow-hidden flex bg-gradient-to-br from-primary via-middle to-secondary bg-cover bg-no-repeat">
+                    <SideNav />
+                    <div className="w-full h-screen">
+                      <Header />
+                      <div className="overflow-y-auto h-full scrollbar-hidden">
+                        <Outlet />
+                      </div>
+                      <PlayingSongComp />
                     </div>
-                    <PlayingSongComp />
-                  </div>
-                  <ErrorMsgContext.Provider value={{ errorMsg, setErrorMsg }}>
-                    <SuccessMsgContext.Provider
-                      value={{ successMsg, setSuccessMsg }}
-                    >
-                      <FormTypeContext.Provider
-                        value={{ FormType, setFormType }}
+                    <ErrorMsgContext.Provider value={{ errorMsg, setErrorMsg }}>
+                      <SuccessMsgContext.Provider
+                        value={{ successMsg, setSuccessMsg }}
                       >
-                        <LoginPage />
-                      </FormTypeContext.Provider>
-                    </SuccessMsgContext.Provider>
-                  </ErrorMsgContext.Provider>
-                </div>
-              </IsplayingContext.Provider>
+                        <FormTypeContext.Provider
+                          value={{ FormType, setFormType }}
+                        >
+                          <LoginPage />
+                        </FormTypeContext.Provider>
+                      </SuccessMsgContext.Provider>
+                    </ErrorMsgContext.Provider>
+                  </div>
+                </IsplayingContext.Provider>
+              </PlayingContext.Provider>
             </LoginFormOpenContext.Provider>
           </SignUpUserStatus.Provider>
         </LoadingContext.Provider>

@@ -14,9 +14,10 @@ import {
 } from "../context/LoginContext";
 import supabase from "../../Config/supabase";
 import { motion } from "framer-motion";
+import { PlayingContext } from "../context/PlayingContext";
 
 const SongComp1 = () => {
-  const [playingSongId, setPlayingSongId] = useState(1);
+  const {playingSongId, setPlayingSongId} = useContext(PlayingContext);
   const { isPlaying, setIsPlaying } = useContext(IsplayingContext);
   const { userDetails } = useContext(UserDetailsContext);
   const { loginFormOpen, setLoginFormOpen } = useContext(LoginFormOpenContext);

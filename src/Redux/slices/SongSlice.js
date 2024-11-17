@@ -67,6 +67,12 @@ const songSlicer = createSlice({
       } else {
         state.playingSong = state.songsList[0];
       }
+      state.songsList = state.songsList.map(
+        (song) =>
+          song.songId === state.playingSong.songId
+            ? { ...song, play: true }
+            : { ...song, play: false } // Reset play state for other songs
+      );
     },
 
     prevSong: (state, action) => {
@@ -82,6 +88,13 @@ const songSlicer = createSlice({
       } else {
         state.playingSong = state.songsList[state.songsList.length - 1];
       }
+
+      state.songsList = state.songsList.map(
+        (song) =>
+          song.songId === state.playingSong.songId
+            ? { ...song, play: true }
+            : { ...song, play: false } // Reset play state for other songs
+      );
     },
 
     addUserDetails: (state, action) => {

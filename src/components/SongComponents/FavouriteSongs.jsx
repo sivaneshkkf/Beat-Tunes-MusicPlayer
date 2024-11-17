@@ -15,9 +15,10 @@ import {
 import supabase from "../../Config/supabase";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { PlayingContext } from "../context/PlayingContext";
 
 const FavouriteSongs = () => {
-  const [playingSongId, setPlayingSongId] = useState(1);
+  const {playingSongId, setPlayingSongId} = useContext(PlayingContext);
   const { isPlaying, setIsPlaying } = useContext(IsplayingContext);
   const { userDetails } = useContext(UserDetailsContext);
   const { loginFormOpen, setLoginFormOpen } = useContext(LoginFormOpenContext);
