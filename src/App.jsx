@@ -28,6 +28,7 @@ import {
 import LoginPage from "./components/LoginPage";
 import { NavBarContext } from "./components/context/NaveBarContext";
 import { PlayingContext } from "./components/context/PlayingContext";
+import InstallButton from "./components/InstallButton";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -117,6 +118,7 @@ const App = () => {
                     <SideNav />
                     <div className="w-full h-screen">
                       <Header />
+                      <InstallButton/>
                       <div className="overflow-y-auto h-full scrollbar-hidden">
                         <Outlet />
                       </div>
