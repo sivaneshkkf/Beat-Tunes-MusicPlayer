@@ -38,7 +38,6 @@ const SideNav = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      console.log(sWidth)
       if (navbarRef.current && !navbarRef.current.contains(event.target) && sWidth === "sm") {
         setNavBarOpen(false);
       }

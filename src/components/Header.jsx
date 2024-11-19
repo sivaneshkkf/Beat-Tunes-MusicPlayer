@@ -34,7 +34,7 @@ function Header() {
   }, [searchInput]);
 
   return (
-    <header className="space-y-2 pb-5 px-5 md:px-8">
+    <header className="space-y-2 pb-5 px-5 md:px-8 lg:mt-2">
       <div className="flex justify-between items-center">
         <div className="flex gap-1 mt-2">
           <div className="flex gap-1 items-end">

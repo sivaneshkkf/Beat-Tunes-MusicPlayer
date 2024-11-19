@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const InstallButton = () => {
+const InstallButton = ({setStatus, clickDownload, setClickDownload}) => {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showInstallButton, setShowInstallButton] = useState(false);
 
@@ -13,6 +13,7 @@ const InstallButton = () => {
       setDeferredPrompt(event);
       // Show the install button
       setShowInstallButton(true);
+      setStatus(true)
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
@@ -21,7 +22,13 @@ const InstallButton = () => {
     return () => {
       window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     };
-  }, []);
+  }, [clickDownload]);
+
+  useEffect(() => {
+    if(clickDownload){
+      handleInstallClick()
+    }
+  },[clickDownload])
 
   // Function to handle the installation process
   const handleInstallClick = () => {
@@ -43,13 +50,15 @@ const InstallButton = () => {
       // Reset the deferredPrompt and hide the install button
       setDeferredPrompt(null);
       setShowInstallButton(false);
+      setStatus(false)
+      setClickDownload(false)
     }
   };
 
   return (
     <>
       {showInstallButton && (
-        <button onClick={handleInstallClick}>
+        <button className="hidden" onClick={handleInstallClick}>
           Install PWA
         </button>
       )}

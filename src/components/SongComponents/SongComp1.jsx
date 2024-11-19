@@ -135,7 +135,7 @@ const SongComp1 = () => {
   };
 
   return (
-    <div className="overflow-hidden px-5 md:px-8 mt-5">
+    <div className="overflow-hidden px-5 md:px-8 mt-5 w-full lg:w-9/12">
       <div>
         <h4 className="text-white text-sm font-semibold mb-2">
           Popular Alubums
